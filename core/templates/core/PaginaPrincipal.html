@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    
+    <script src="https://kit.fontawesome.com/0d61081766.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static '/core/css/main.css' %}">
+    <link rel="stylesheet" href="{% static '/core/css/dropdown.css' %}">
+    <title>Taller Mecanico</title>
+    <link rel="icon" href="{% static '/core/img/Logo.png' %}" type="image/icon type">
+
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+            <a href="#"> <img src="{% static '\core\img\logo.png' %}" alt="logo de la marca"></a>
+            </div>
+            <div class="logo" id="logoMec">
+                <h1>Mecánicos<b>UC </b> </h1>
+            </div>
+            <div class="menu" id="show-menu">
+                <nav>
+                    <ul>
+                        {% if user.is_superuser %}
+                            <li><a href="/crud_admin.html">Administración</a></li>   
+                        {% endif %}
+                        <li><a href="/Contacto.html" id="ContactoDisplay">Contactenos</a></li>
+                        <li><a href="/Mecanicos.html">Mecánicos</a></li>
+                        <li><a href="/GaleriaEA.html" id="FallaDisplay">Falla Eléctrica</a></li>
+                        <li><a href="/GaleriaCdC.html" id="CajaDisplay">Falla Caja de Cambio</a></li>
+                        <li><a href="/GaleriaSyD.html" id="SuspencionDisplay">Falla Suspención o Dirección</a></li>
+                        <li><a href="/GaleriaMG.html" id="MantencionDisplay">Mantención General</a></li>
+                        <li class="dropdown" id="dropdownDisplay">
+                            <a href="#">Vehículos Registrados</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/GaleriaEA.html">Falla Eléctrica</a></li>
+                                <li><a href="/GaleriaCdC.html">Falla Caja de Cambio</a></li>
+                                <li><a href="/GaleriaSyD.html">Falla Suspención o Dirección</a></li>
+                                <li><a href="/GaleriaMG.html">Mantención General</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/Servicios.html" id="ServicioDisplay">Servicios</a></li>
+                        {% if request.user.is_authenticated %}
+                        <li>
+                            <a class="nav-link" href={% url 'logout' %}>Cerrar Sesión</a>
+                        </li>
+
+                        {% else %}
+                        <li class="menu-selected">
+                            <a class="nav-link" href={% url 'login' %} class="text-menu-selected">Ingresar</a>
+                        </li>
+
+                        <li class="menu-selected">
+                            <a class="nav-link" href={% url 'register' %} class="text-menu-selected">Registrarse</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div id="icon-menu">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </header>
+
+    <div class="container-all" id="move-content">
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="text-homeimage">
+                <div class="maintext-image" data-scrollreveal="enter top over 1.5s after 0.1s">
+                    Mecánicos<b>UC</b>
+                </div>
+                <div class="subtext-image" data-scrollreveal="enter bottom over 1.7s after 0.3s">
+                    Promovemos soluciones eficaces, a la velocidad de un motor.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<div class="card">
+    <br><br>
+    <h1>Sobre Nosotros:</h1>
+    <h4>Nuestra empresa se dedica a la mecánica automotriz en todas sus ramas, desde el mantenimiento básico 
+        hasta la reparación avanzada de cajas de cambio. Con una vasta experiencia en el sector, nuestro equipo 
+        de mecánicos especializados en electricidad automotriz, suspensión y dirección, y mecánica general, está 
+        comprometido en ofrecer a nuestros clientes un servicio de calidad, profesionalismo y confianza. Estamos 
+        aquí para asegurarnos de que su vehículo funcione de manera eficiente y segura, garantizando así su satisfacción total.</h4>
+    <br><br><br><br>
+
+    <div class="carousel-container">
+            <div class="carousel-slide">
+                <figure>
+                    <img src="{% static '\core\img\Mantenimiento.jpg' %}" alt="Mantenimiento">
+                <figcaption>
+                    <a href="GaleriaMG.html"><h3>Mantenimiento</h3></a>
+                    <p>Registros y datos relacionados con las reparaciones, inspecciones y mantenimientos realizados en los vehículos y maquinarias que han sido atendidos en el taller</p>
+                </figcaption>
+                </figure>
+            </div>
+
+            <div class="carousel-slide">
+                <figure>
+                    <img src="{% static '\core\img\electrico1.jpg' %}" alt="Electrico">
+                    <figcaption>
+                        <a href="GaleriaEA.html"><h3>Eléctricos</h3></a>
+                        <p>Los mecánicos eléctricos son profesionales especializados en la instalación, mantenimiento y reparación de sistemas eléctricos </p>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="carousel-slide">
+                <figure>
+                    <img src="{% static '\core\img\mecanico-cajadecambio.jpg' %}" alt="Caja de Cambio">
+                    <figcaption>
+                        <a href="GaleriaCdC.html"><h3>Mecánicos de Caja de Cambio</h3></a>
+                        <p>Los mecánicos de caja de cambios son profesionales especializados en la reparación y mantenimiento de las cajas de cambios de vehículos y maquinarias.</p>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="carousel-slide">
+                <figure>
+                    <img src="{% static '\core\img\mecanico-suspencion.jpg' %}" alt="Suspención">
+                    <figcaption>
+                        <a href="GaleriaSyD.html"><h3>Mecánicos de Suspención</h3></a>
+                        <p>Los mecánicos de suspensión son profesionales especializados en el mantenimiento y reparación del sistema de suspensión de vehículos y maquinarias</p>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <button id="prevBtn"><</button>
+            <button id="nextBtn">></button>
+
+    </div>
+
+    <br><br><br><br><br>
+</div>
+
+    <div class="container-footer">
+        <footer>
+            <div class="logo-footer">
+                <img src="" alt="">
+            </div>
+            <div class="info-footer">
+                <a href="PaginaPrincipal.html"> <i class="fa-solid fa-house icon-info-footer"> </i></a>
+                <a href="Mecanicos.html"> <i class="fa-solid fa-circle-user icon-info-footer"> </i></a>
+                <a href="#"> <i class="fa-solid fa-pen icon-info-footer" onclick="mostrarPopUpForm()"> </i></a>
+                <a href="#"> <i class="fa-solid fa-bus icon-info-footer" onclick="mostrarPopUpBus()"> </i></a>
+            </div>
+            <hr>
+            <h4>
+                2022 - Proyecto Web - Branco Molina / Cristobal Cona / Francisco Cofre
+            </h4>
+        </footer>
+    </div>
+</div>
+
+        <script src="{% static '/core/js/main.js' %}"> </script>
+</body>
+</html>

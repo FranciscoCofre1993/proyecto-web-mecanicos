@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="icon" href="{% static '/core/img/Logo.png' %}" type="image/icon type">
+    <script src="https://kit.fontawesome.com/0d61081766.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static '/core/css/main.css' %}">
+    <link rel="stylesheet" href="{% static '/core/css/index.css' %}">
+    <link rel="stylesheet" href="{% static '/core/css/dropdown2.css' %}">
+    <script src="https://kit.fontawesome.com/0d61081766.js" crossorigin="anonymous"></script>
+    <title>Empleados</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+        <div class="logo">
+            <a href="/PaginaPrincipal.html"> <img src="{% static '\core\img\Logo.png' %}" alt="logo de la marca">
+        </div>
+        <div class="logo" id="logoMec">
+            <h1>Mecánicos<b>UC </b> </h1>
+        </div>
+        <div class="menu" id="show-menu">
+            <nav>
+                <ul>                   
+                    {% if user.is_superuser %}
+                      <li><a href="/crud_admin.html">Administración</a></li>   
+                    {% endif %}
+                    <li><a href="/Contacto.html" id="ContactoDisplay">Contactenos</a></li>
+                    <li><a href="Mecanicos.html" >Mecánicos</a></li>
+                    <li><a href="GaleriaEA.html" id="FallaDisplay">Falla Eléctrica</a></li>
+                    <li><a href="GaleriaCdC.html" id="CajaDisplay">Falla Caja de Cambio</a></li>
+                    <li><a href="GaleriaSyD.html" id="SuspencionDisplay">Falla Suspención o Dirección</a></li>
+                    <li><a href="GaleriaMG.html" id="MantencionDisplay">Mantención General</a></li>
+                    <li class="dropdown" id="dropdownDisplay">
+                        <a href="#">Vehículos Registrados</a>
+                    </li>
+                    <li><a href="/Servicios.html" id="ServicioDisplay">Servicios</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url 'logout' %}>Cerrar Sesión</a>
+                        </li>
+
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url 'login' %}>Ingresar</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url 'register' %}>Registrarse</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="icon-menu">
+        <i class="fa-solid fa-bars"></i>
+    </div>
+</header>
+
+<br><br><br>
+<section class="container my-5">
+    <h2 class="text-center mb-4">Administración de Mecánico</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-6 my-form" style="background-color: #f7f7f7; padding: 20px; border: 2px solid #ccc; border-radius: 5px;">
+            <form method="POST" autocomplete="off" enctype="multipart/form-data" action="{% url 'form_mod_mecanico' mecanico.id %}">
+                {% csrf_token %}
+                <h2>Formulario Mecánico</h2>
+                <div class="form-group">
+                    <label for="{{ formulario.nombre.id_for_label }}">Primer Nombre:</label>
+                    <input type="{{ formulario.nombre.field.widget.input_type }}" id="{{ formulario.nombre.id_for_label }}" name="{{ formulario.nombre.html_name }}" class="form-control" value="{{ formulario.nombre.value }}">
+                    {% if formulario.nombre.errors %}
+                        <p class="error-message">{{ formulario.nombre.errors }}</p>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ formulario.snombre.id_for_label }}">Segundo Nombre:</label>
+                    <input type="{{ formulario.snombre.field.widget.input_type }}" id="{{ formulario.snombre.id_for_label }}" name="{{ formulario.snombre.html_name }}" class="form-control" value="{{ formulario.snombre.value }}">
+                    {% if formulario.snombre.errors %}
+                        <p class="error-message">{{ formulario.snombre.errors }}</p>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ formulario.apellidop.id_for_label }}">Apellido Paterno:</label>
+                    <input type="{{ formulario.apellidop.field.widget.input_type }}" id="{{ formulario.apellidop.id_for_label }}" name="{{ formulario.apellidop.html_name }}" class="form-control" value="{{ formulario.apellidop.value }}">
+                    {% if formulario.apellidop.errors %}
+                        <p class="error-message">{{ formulario.apellidop.errors }}</p>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ formulario.apellidom.id_for_label }}">Apellido Materno:</label>
+                    <input type="{{ formulario.apellidom.field.widget.input_type }}" id="{{ formulario.apellidom.id_for_label }}" name="{{ formulario.apellidom.html_name }}" class="form-control" value="{{ formulario.apellidom.value }}">
+                    {% if formulario.apellidom.errors %}
+                        <p class="error-message">{{ formulario.apellidom.errors }}</p>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ formulario.telefono.id_for_label }}">Teléfono:</label>
+                    <input type="{{ formulario.telefono.field.widget.input_type }}" id="{{ formulario.telefono.id_for_label }}" name="{{ formulario.telefono.html_name }}" maxlenght="9" class="form-control" value="{{ formulario.telefono.value }}">
+                    {% if formulario.telefono.errors %}
+                        <p class="error-message">{{ formulario.telefono.errors }}</p>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ formulario.email.id_for_label }}">Email:</label>
+                    <input type="{{ formulario.email.field.widget.input_type }}" id="{{ formulario.email.id_for_label }}" name="{{ formulario.email.html_name }}" class="form-control" value="{{ formulario.email.value }}">
+                    {% if formulario.email.errors %}
+                        <p class="error-message">{{ formulario.email.errors }}</p>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ formulario.especialidad.id_for_label }}">Especialidad:</label>
+                    {{ formulario.especialidad }}
+                </div>
+                <div class="form-group">
+                    <label for="imagen">Foto del Mecánico:</label>
+                    {% if url_imagen %}
+                    <img src="{{ url_imagen }}" alt="Imagen del vehículo" class="img-fluid" style="width: 180px; height: 250px;">
+                    {% else %}
+                    <p>No hay imagen disponible</p>
+                    {% endif %}
+                    <input type="file" class="form-control-file" id="imagen" name="imagen">
+                </div>
+                <div class="text-right">
+                    <button type="submit" name="form_mod_mecanico" class="btn btn-primary">Modificar Mecánico</button>
+                    <a href="{% url 'form_del_mecanico' mecanico.id %}" class="btn btn-danger">Eliminar</a>
+                </div>
+                <br>
+            </form>
+        </div>
+    </div>
+</section>
+
+<br><br><br>
+
+<div class="container-footer">
+  <footer>
+      <div class="logo-footer">
+          <img src="" alt="">
+      </div>
+      <div class="info-footer">
+          <a href="PaginaPrincipal.html"> <i class="fa-solid fa-house icon-info-footer"> </i></a>
+          <a href="Mecanicos.html"> <i class="fa-solid fa-circle-user icon-info-footer"> </i></a>
+          <a href="#"> <i class="fa-solid fa-pen icon-info-footer" onclick="mostrarPopUpForm()"> </i></a>
+          <a href="#"> <i class="fa-solid fa-bus icon-info-footer" onclick="mostrarPopUpBus()"> </i></a>
+      </div>
+      <hr>
+      <h4>
+          2022 - Proyecto Web - Branco Molina / Cristobal Cona / Francisco Cofre
+      </h4>
+  </footer>
+</div>
+  <script src="{% static '/core/js/main.js' %}"> </script>
+</div>
+</body>
+</html>

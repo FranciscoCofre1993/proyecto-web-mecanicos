@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Buscador de paraderos</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{% static '/core/css/index.css' %}">
+  </head>
+  <body>
+    <div class="label"><label for="paradero">Ingrese el identificador del paradero:</label>
+    <input type="text" id="paradero" placeholder="Código de paradero" /> 
+    <button onclick="buscarParadero()">Buscar</button></div>
+
+    <div id="resultado"></div>
+
+    <script>
+      function buscarParadero() {
+        var paradero = document.getElementById("paradero").value;
+
+        $.getJSON("https://api.xor.cl/red/bus-stop/" + paradero, function (
+          data
+        ) {
+          var servicios = data.services;
+
+          var serviciosHTML = "";
+
+          for (var i = 0; i < servicios.length; i++) {
+            var servicio = servicios[i];
+
+            serviciosHTML += "<tr>";
+            serviciosHTML += "<td>" + servicio.id + "</td>";
+            serviciosHTML += "<td>" + (servicio.valid ? "Sí" : "No") + "</td>";
+            serviciosHTML += "<td>" + servicio.status_description + "</td>";
+
+            if (servicio.buses.length > 0) {
+              serviciosHTML += "<td>";
+
+              for (var j = 0; j < servicio.buses.length; j++) {
+                var bus = servicio.buses[j];
+
+                serviciosHTML +=
+                  "N° " + bus.bus_number + " - Tiempo: " + bus.time_to_arrive + "<br>";
+              }
+
+              serviciosHTML += "</td>";
+            } else {
+              serviciosHTML += "<td>No hay buses que se aproximen</td>";
+            }
+
+            serviciosHTML += "</tr>";
+          }
+
+          var resultadoHTML = "";
+
+          resultadoHTML += "<p>Nombre del paradero: " + data.name + "</p>";
+          resultadoHTML +=
+            "<p>Descripción del estado del paradero: " +
+            data.status_description +
+            "</p>";
+
+          resultadoHTML += "<table border='1'>";
+          resultadoHTML += "<tr>";
+          resultadoHTML += "<th>ID del servicio</th>";
+          resultadoHTML += "<th>¿Está en horario de operación?</th>";
+          resultadoHTML += "<th>Descripción del estado del servicio</th>";
+          resultadoHTML += "<th>Buses que se aproximan</th>";
+          resultadoHTML += "</tr>";
+
+          resultadoHTML += serviciosHTML;
+          resultadoHTML += "</table>";
+
+          $("#resultado").html(resultadoHTML);
+        });
+      }
+    </script>
+  </body>
+</html>

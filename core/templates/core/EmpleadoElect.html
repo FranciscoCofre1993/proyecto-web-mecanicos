@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="icon" href="{% static '/core/img/Logo.png' %}" type="image/icon type">
+    <link rel="stylesheet" href="{% static '/core/css/main.css' %}">
+    <link rel="stylesheet" href="{% static '/core/css/dropdown2.css' %}">
+    <script src="https://kit.fontawesome.com/0d61081766.js" crossorigin="anonymous"></script>
+    <title>Empleados</title>
+    <script src="https://kit.fontawesome.com/0d61081766.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+        <div class="logo">
+          <a href="/PaginaPrincipal.html"> <img src="{% static '\core\img\Logo.png' %}" alt="logo de la marca">
+        </div>
+        <div class="logo" id="logoMec">
+            <h1>Mecánicos<b>UC </b> </h1>
+        </div>
+        <div class="menu" id="show-menu">
+            <nav>
+                <ul>
+                    <li><a href="/Contacto.html" id="ContactoDisplay">Contacto</a></li>
+                    <li><a href="/Mensaje.html" id="MensajeDisplay">Administración</a></li>
+                    <li class="menu-selected"><a href="Mecanicos.html" class="text-menu-selected">Mecánicos</a></li>
+                    <li><a href="GaleriaEA.html" id="FallaDisplay">Falla Eléctrica</a></li>
+                    <li><a href="GaleriaCdC.html" id="CajaDisplay">Falla Caja de Cambio</a></li>
+                    <li><a href="GaleriaSyD.html" id="SuspencionDisplay">Falla Suspención o Dirección</a></li>
+                    <li><a href="GaleriaMG.html" id="MantencionDisplay">Mantención General</a></li>
+                    <li class="dropdown" id="dropdownDisplay">
+                        <a href="#">Vehículos Registrados</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="GaleriaEA.html">Falla Eléctrica</a></li>
+                            <li><a href="GaleriaCdC.html">Falla Caja de Cambio</a></li>
+                            <li><a href="GaleriaSyD.html">Falla Suspención o Dirección</a></li>
+                            <li><a href="GaleriaMG.html">Mantención General</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/login">
+                      {% if usuario != None %}
+                          {{ usuario }}
+                      {% else %}
+                          Login
+                      {% endif %}
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="icon-menu">
+        <i class="fa-solid fa-bars"></i>
+    </div>
+</header>
+
+<div class="container-all" id="move-content">
+<br><br><br><br><br><br>
+    <br><div class="container">
+      <img src="{% static '\core\img\mecanico-electr.png' %}" alt="n" width="140" height="135" align="left">⠀⠀
+        <!-- <div class="gingercont">   -->       
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Mecanico</th>
+          <th>Vehiculo</th>
+          <th>Año</th>
+          <th>Diagnostico</th>
+          <th>Materiales Utilizados</th>
+          <th>Fecha</th>    
+          <th>Usuario</th>
+          <th>Correo electrónico Mecanico</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Jhon Andrew Morrison Jara</td>
+          <td>Hyundai Tucson</td>
+          <td>2018</td>
+          <td>Falla Electrica</td>
+          <td>Servicio de Scanner y reinicio de computador</td>
+          <td>4 de Abril de 2023</td>
+          <td>Franciso Cofre</td>
+          <td></td>
+        </tr>
+        <tr>
+            <td>Jhon Andrew Morrison Jara</td>
+            <td>Hummer H2</td>
+            <td>2018</td>
+            <td>Falla Electrica</td>
+            <td>Servicio de Scanner y reinicio de computador</td>
+            <td>14 de Abril de 2023</td>
+            <td>Branco Mol</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Jhon Andrew Morrison Jara</td>
+            <td>BMW M3</td>
+            <td>2015</td>
+            <td>Falla Electrica</td>
+            <td>Servicio de Scanner y reinicio de computador</td>
+            <td>15 de Abril de 2023</td>
+            <td>Cristobal Conb</td>
+            <td></td>
+          </tr>
+    </tbody>
+    
+</table>
+<script>
+  fetch('https://fakestoreapi.com/users')
+    .then(response => response.json())
+    .then(data => {
+      const user = data.find(user => user.username === 'mor_2314'); // Filtrar usuario por username
+      const emailCells = document.querySelectorAll('td:last-child'); // Seleccionar todas las celdas de la última columna
+
+      emailCells.forEach(cell => {
+        cell.innerHTML = user.email;
+      });
+    });
+</script>
+
+</div>
+</div>
+
+<br>
+
+
+</div>
+
+<div class="container-footer">
+  <footer>
+      <div class="logo-footer">
+          <img src="" alt="">
+      </div>
+      <div class="info-footer">
+          <a href="PaginaPrincipal.html"> <i class="fa-solid fa-house icon-info-footer"> </i></a>
+          <a href="Mecanicos.html"> <i class="fa-solid fa-circle-user icon-info-footer"> </i></a>
+          <a href="#"> <i class="fa-solid fa-pen icon-info-footer" onclick="mostrarPopUpForm()"> </i></a>
+          <a href="#"> <i class="fa-solid fa-bus icon-info-footer" onclick="mostrarPopUpBus()"> </i></a>
+      </div>
+      <hr>
+      <h4>
+          2022 - Proyecto Web - Branco Molina / Cristobal Cona / Francisco Cofre
+      </h4>
+  </footer>
+</div>
+</div>
+  <script src="{% static '/core/js/main.js' %}"> </script>
+</body>
+</html>

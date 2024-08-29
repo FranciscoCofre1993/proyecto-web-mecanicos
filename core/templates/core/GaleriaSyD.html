@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>Taller Mecanico</title>
+
+  <link rel="icon" href="{% static '/core/img/Logo.png' %}" type="image/icon type">
+
+  <link rel="stylesheet" href="{% static '/core/css/main.css' %}">
+  <link rel="stylesheet" href="{% static '/core/css/dropdown2.css' %}">
+  <script src="https://kit.fontawesome.com/0d61081766.js" crossorigin="anonymous"></script>
+
+  <!--este link es para hacer nuestra página responsiva para distintos dispositivos-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--este link es para hacer funcionar boostrap-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-content">
+        <div class="logo">
+          <a href="/PaginaPrincipal.html"> <img src="{% static '\core\img\Logo.png' %}" alt="logo de la marca">
+        </div>
+        <div class="logo" id="logoMec">
+            <h1>Mecánicos<b>UC </b> </h1>
+        </div>
+        <div class="menu" id="show-menu">
+            <nav>
+                <ul>
+                    {% if user.is_superuser %}
+                      <li><a href="/crud_admin.html">Administración</a></li>   
+                    {% endif %}
+                    <li><a href="/Contacto.html" id="ContactoDisplay">Contactenos</a></li>
+                    <li><a href="/Mecanicos.html">Mecánicos</a></li>
+                    <li><a href="GaleriaEA.html" id="FallaDisplay">Falla Eléctrica</a></li>
+                    <li><a href="GaleriaCdC.html" id="CajaDisplay">Falla Caja de Cambio</a></li>
+                    <li class="menu-selected"><a href="GaleriaSyD.html" id="SuspencionDisplay">Falla Suspención o Dirección</a></li>
+                    <li><a href="GaleriaMG.html" id="MantencionDisplay">Mantención General</a></li>
+                    <li class="dropdown" id="dropdownDisplay">
+                      <a href="#" class="text-menu-selected">Vehículos Registrados</a>
+                      <ul class="dropdown-menu">
+                        <li><a href="GaleriaEA.html">Falla Eléctrica</a></li>
+                        <li><a href="GaleriaCdC.html">Falla Caja de Cambio</a></li>
+                        <li class="menu-selected"><a href="GaleriaSyD.html">Falla Suspención o Dirección</a></li>
+                        <li><a href="GaleriaMG.html">Mantención General</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="/Servicios.html" id="ServicioDisplay">Servicios</a></li>
+                    {% if request.user.is_authenticated %}
+                      <li class="nav-item">
+                        <a class="nav-link" href={% url 'logout' %}>Cerrar Sesión</a>
+                      </li>
+
+                    {% else %}
+                      <li class="nav-item">
+                        <a class="nav-link" href={% url 'login' %}>Ingresar</a>
+                      </li>
+
+                      <li class="nav-item">
+                        <a class="nav-link" href={% url 'register' %}>Registrarse</a>
+                      </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="icon-menu">
+        <i class="fa-solid fa-bars"></i>
+    </div>
+</header>
+
+<div class="container-all" id="move-content">
+  <div class="Listado py-5">
+    <center>
+      <h4> Lista de vehiculos - Suspención y Dirección</h4>
+    </center>
+  </div>
+
+  <div class="row mx-5">
+    <div class="autos col-sm">
+      <div class="cards" style="width: 18rem;">
+        <a href="#">
+          <img src="{% static '\core\img\autos\toyotarav4.jpeg' %}" alt="auto 10">
+        <div class="card-body">
+          <h3>Toyota Rav4</h3>
+          <table>
+            <tr>
+              <td> Año: </td>
+              <td> 2020 </td>
+            </tr>
+            <tr>
+              <td> Fecha: </td>
+              <td> 04 Abril 2023 </td>
+            </tr>
+            <tr>
+              <td> Mecánico: </td>
+              <td> Johan Alexis Bravo Tapia </td>
+            </tr>
+            <tr>
+              <td> Diagnóstico: </td>
+              <td> Servicio de alineamiento. </td>
+            </tr>
+            <tr>
+              <td> Materiales utilizados: </td>
+              <td> Cambio de las 4 ruedas y 2 amortiguadores. </td>
+            </tr>
+            <tr>
+              <td> Numero de Mantenciones: </td>
+              <td> 4 </td>
+          </tr>
+          <tr>
+              <td> Usuario: </td>
+              <td> Gonzalo Perez</td>
+          </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="autos col-sm">
+      <div class="cards" style="width: 18rem;">
+        <a href="#">
+          <img src="{% static '\core\img\autos\toyotayaris.jpeg' %}" alt="auto 11">
+        <div class="card-body">
+          <h3>Toyota Yaris</h3>
+          <table>
+            <tr>
+              <td> Año: </td>
+              <td> 2017 </td>
+            </tr>
+            <tr>
+              <td> Fecha: </td>
+              <td> 04 Abril 2023 </td>
+            </tr>
+            <tr>
+              <td> Mecánico: </td>
+              <td> Johan Alexis Bravo Tapia </td>
+            </tr>
+            <tr>
+              <td> Diagnóstico: </td>
+              <td> Servicio de alineamiento. </td>
+            </tr>
+            <tr>
+              <td> Materiales utilizados: </td>
+              <td> Cambio de 2 ruedas. </td>
+            </tr>
+            <tr>
+              <td> Numero de Mantenciones: </td>
+              <td> 2 </td>
+          </tr>
+          <tr>
+              <td> Usuario: </td>
+              <td> Juan Perez</td>
+          </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="autos col-sm">
+      <div class="cards" style="width: 18rem;">
+        <a href="#">
+          <img src="{% static '\core\img\autos\mazda3.jpeg' %}" alt="auto 12">
+        <div class="card-body">
+          <h3>Mazda 3</h3>
+          <table>
+            <tr>
+              <td> Año: </td>
+              <td> 2015 </td>
+            </tr>
+            <tr>
+              <td> Fecha: </td>
+              <td> 04 Abril 2023 </td>
+            </tr>
+            <tr>
+              <td> Mecánico: </td>
+              <td> Johan Alexis Bravo Tapia </td>
+            </tr>
+            <tr>
+              <td> Diagnóstico: </td>
+              <td> Servicio de alineamiento. </td>
+            </tr>
+            <tr>
+              <td> Materiales utilizados: </td>
+              <td> Cambio de las 2 ruedas y 4 amortiguadores. </td>
+            </tr>
+            <tr>
+              <td> Numero de Mantenciones: </td>
+              <td> 2 </td>
+          </tr>
+          <tr>
+              <td> Usuario: </td>
+              <td> Juan Perez</td>
+          </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <br><br><br><br><br><br><br>
+   
+  <div class="container-footer">
+    <footer>
+        <div class="logo-footer">
+            <img src="" alt="">
+        </div>
+        <div class="info-footer">
+            <a href="PaginaPrincipal.html"> <i class="fa-solid fa-house icon-info-footer"> </i></a>
+            <a href="Mecanicos.html"> <i class="fa-solid fa-circle-user icon-info-footer"> </i></a>
+            <a href="#"> <i class="fa-solid fa-pen icon-info-footer" onclick="mostrarPopUpForm()"> </i></a>
+            <a href="#"> <i class="fa-solid fa-bus icon-info-footer" onclick="mostrarPopUpBus()"> </i></a>
+        </div>
+        <hr>
+        <h4>
+            2022 - Proyecto Web - Branco Molina / Cristobal Cona / Francisco Cofre
+        </h4>
+    </footer>
+</div>
+  <script src="{% static '/core/js/main.js' %}"> </script>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,584 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="icon" href="{% static '/core/img/Logo.png' %}" type="image/icon type">
+    <script src="https://kit.fontawesome.com/0d61081766.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static '/core/css/main.css' %}">
+    <link rel="stylesheet" href="{% static '/core/css/index.css' %}">
+    <link rel="stylesheet" href="{% static '/core/css/dropdown2.css' %}">
+    <script src="https://kit.fontawesome.com/0d61081766.js" crossorigin="anonymous"></script>
+    <title>Empleados</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+        <div class="logo">
+            <a href="/PaginaPrincipal.html"> <img src="{% static '\core\img\Logo.png' %}" alt="logo de la marca">
+        </div>
+        <div class="logo" id="logoMec">
+            <h1>Mecánicos<b>UC </b> </h1>
+        </div>
+        <div class="menu" id="show-menu">
+            <nav>
+                <ul>       
+                    {% if user.is_superuser %}
+                        <li class="menu-selected"><a href="/crud_admin.html" class="text-menu-selected" id="MensajeDisplay">Administración</a></li>   
+                    {% endif %}         
+                    <li><a href="/Contacto.html" id="ContactoDisplay">Contactenos</a></li>
+                    <li><a href="Mecanicos.html" id="MecanicosDisplay">Mecánicos</a></li>
+                    <li><a href="GaleriaEA.html" id="FallaDisplay">Falla Eléctrica</a></li>
+                    <li><a href="GaleriaCdC.html" id="CajaDisplay">Falla Caja de Cambio</a></li>
+                    <li><a href="GaleriaSyD.html" id="SuspencionDisplay">Falla Suspención o Dirección</a></li>
+                    <li><a href="GaleriaMG.html" id="MantencionDisplay">Mantención General</a></li>
+                    <li class="dropdown" id="dropdownDisplay">
+                        <li class="menu-selected"><a href="#" class="text-menu-selected">Vehículos Registrados</a></li>
+                        <ul class="dropdown-menu">
+                          <li><a href="GaleriaEA.html">Falla Eléctrica</a></li>
+                          <li><a href="GaleriaCdC.html">Falla Caja de Cambio</a></li>
+                          <li><a href="GaleriaSyD.html">Falla Suspención o Dirección</a></li>
+                          <li><a href="GaleriaMG.html">Mantención General</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/Servicios.html" id="ServicioDisplay">Servicios</a></li>
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url 'logout' %}>Cerrar Sesión</a>
+                        </li>
+
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url 'login' %}>Ingresar</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href={% url 'register' %}>Registrarse</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div id="icon-menu">
+        <i class="fa-solid fa-bars"></i>
+    </div>
+</header>
+
+<br><br><br>
+
+{% if request.user.is_authenticated %}
+    <hr>
+    <h4 class="text-center">
+        Usuario: {{ user.username | upper }}
+    </h4>
+{% endif %}
+
+<section class="container my-5">
+    <h2 class="text-center mb-4">Administración</h2>
+    <hr>
+    <button id="btn-agregar-mecanico" class="btn btn-primary" onclick="mostrarFormulario('formularioMecanico')">Agregar Mecánico</button>
+    <button id="btn-agregar-servicio" class="btn btn-primary" onclick="mostrarFormulario('formularioServicio')">Agregar Servicio</button>
+    <button id="btn-agregar-vehiculo" class="btn btn-primary" onclick="mostrarFormulario('formularioVehiculo')">Agregar Vehiculo</button>
+    <button id="btn-agregar-especialidad" class="btn btn-primary" onclick="mostrarFormulario('formularioEspecialidad')">Agregar Especialidad</button>
+    <button id="btn-agregar-marca" class="btn btn-primary" onclick="mostrarFormulario('formularioMarca')">Agregar Marca</button>
+    <button id="btn-agregar-modelo" class="btn btn-primary" onclick="mostrarFormulario('formularioModelo')">Agregar Modelo</button>
+    <button id="btn-agregar-tipoVehiculo" class="btn btn-primary" onclick="mostrarFormulario('formularioTipoVehiculo')">Agregar Tipo Vehículo</button>
+    <br>
+    <hr>
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            
+            <form id="formularioMecanico" class="hidden-form form-container" method="POST" enctype="multipart/form-data" action="{% url 'crud_admin' %}">
+                <h2>Formulario Mecánicos</h2>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ mecanico_form.nombre.id_for_label }}">Primer Nombre:</label>
+                    <input type="{{ mecanico_form.nombre.field.widget.input_type }}" id="{{ mecanico_form.nombre.id_for_label }}" name="{{ mecanico_form.nombre.html_name }}" class="form-control">
+                    {% if mecanico_form.nombre.errors %}
+                        <p class="error-message">{{ mecanico_form.nombre.errors }}</p>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ mecanico_form.snombre.id_for_label }}">Segundo Nombre:</label>
+                    <input type="{{ mecanico_form.snombre.field.widget.input_type }}" id="{{ mecanico_form.snombre.id_for_label }}" name="{{ mecanico_form.snombre.html_name }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="{{ mecanico_form.apellidop.id_for_label }}">Apellido Paterno:</label>
+                    <input type="{{ mecanico_form.apellidop.field.widget.input_type }}" id="{{ mecanico_form.apellidop.id_for_label }}" name="{{ mecanico_form.apellidop.html_name }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="{{ mecanico_form.apellidom.id_for_label }}">Apellido Materno:</label>
+                    <input type="{{ mecanico_form.apellidom.field.widget.input_type }}" id="{{ mecanico_form.apellidom.id_for_label }}" name="{{ mecanico_form.apellidom.html_name }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="{{ mecanico_form.telefono.id_for_label }}">Teléfono:</label>
+                    <input type="{{ mecanico_form.telefono.field.widget.input_type }}" id="{{ mecanico_form.telefono.id_for_label }}" name="{{ mecanico_form.telefono.html_name }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="{{ mecanico_form.email.id_for_label }}">Email:</label>
+                    <input type="{{ mecanico_form.email.field.widget.input_type }}" id="{{ mecanico_form.email.id_for_label }}" name="{{ mecanico_form.email.html_name }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="{{ mecanico_form.especialidad.id_for_label }}">Especialidad:</label>
+                    {{ mecanico_form.especialidad }}
+                </div>
+                <div class="form-group">
+                    <label for="imagen">Imagen del vehículo:</label>
+                    <input type="file" class="form-control-file" id="imagen" name="imagen">
+                </div>
+                <div class="text-right">
+                    <button type="submit" name="mecanico_form" class="btn btn-primary">Agregar Mecánico</button>
+                </div>
+            </form>
+            <form id="formularioServicio" class="hidden-form form-container" method="POST" enctype="multipart/form-data" action="{% url 'crud_admin' %}">
+                <h2>Formulario Servicios</h2>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ servicio_form.nombre.id_for_label }}">Nombre:</label>
+                    <input type="{{ servicio_form.nombre.field.widget.input_type }}" id="{{ servicio_form.nombre.id_for_label }}" name="{{ servicio_form.nombre.html_name }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="{{ servicio_form.descripcion.id_for_label }}">Descripción:</label>
+                    <input type="{{ servicio_form.descripcion.field.widget.input_type }}" id="{{ servicio_form.descripcion.id_for_label }}" name="{{ servicio_form.descripcion.html_name }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="{{ servicio_form.mecanico.id_for_label }}">Mecánico:</label>
+                    {{ servicio_form.mecanico }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ servicio_form.precio.id_for_label }}">Precio: $</label>
+                    <input type="{{ servicio_form.precio.field.widget.input_type }}" id="{{ servicio_form.precio.id_for_label }}" name="{{ servicio_form.precio.html_name }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="imagen">Imagen del Servicio:</label>
+                    <input type="file" class="form-control-file" id="imagen" name="imagen">
+                </div>
+                <div class="text-right">
+                    <button type="submit" name="servicio_form" class="btn btn-primary">Agregar Servicio</button>
+                </div>
+                <br>
+            </form>
+            <form id="formularioVehiculo" class="hidden-form form-container" method="POST" enctype="multipart/form-data" action="{% url 'crud_admin' %}">
+                <h2>Formulario Vehiculos</h2>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ vehiculo_form.patente.id_for_label }}">Patente:</label>
+                    <input type="{{ vehiculo_form.patente.field.widget.input_type }}" id="{{ vehiculo_form.patente.id_for_label }}" name="{{ vehiculo_form.patente.html_name }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="{{ vehiculo_form.marca.id_for_label }}">Marca:</label>
+                    {{ vehiculo_form.marca }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ vehiculo_form.modelo.id_for_label }}">Modelo:</label>
+                    {{ vehiculo_form.modelo }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ vehiculo_form.anio.id_for_label }}">Año:</label>
+                    <input type="{{ vehiculo_form.anio.field.widget.input_type }}" id="{{ vehiculo_form.anio.id_for_label }}" name="{{ vehiculo_form.anio.html_name }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="{{ vehiculo_form.tipo.id_for_label }}">Tipo de Vehiculo:</label>
+                    {{ vehiculo_form.tipo }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ vehiculo_form.descripcion.id_for_label }}">Descripción:</label>
+                    <input type="{{ vehiculo_form.descripcion.field.widget.input_type }}" id="{{ vehiculo_form.descripcion.id_for_label }}" name="{{ vehiculo_form.descripcion.html_name }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="{{ vehiculo_form.servicio.id_for_label }}">Servicio:</label>
+                    {{ vehiculo_form.servicio }}
+                </div>
+                <div class="form-group">
+                    <label for="imagen">Imagen del vehículo:</label>
+                    <input type="file" class="form-control-file" id="imagen" name="imagen">
+                </div>
+                <div class="text-right">
+                    <button type="submit" name="vehiculo_form" class="btn btn-primary">Agregar Vehículo</button>
+                </div>
+            </form>
+            <form id="formularioEspecialidad" class="hidden-form form-container" method="POST" action="{% url 'crud_admin' %}">
+                <h2>Formulario Especialidad</h2>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ especialidad_form.nombre.id_for_label }}">Nombre:</label>
+                    <input type="{{ especialidad_form.nombre.field.widget.input_type }}" id="{{ especialidad_form.nombre.id_for_label }}" name="{{ especialidad_form.nombre.html_name }}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="{{ especialidad_form.descripcion.id_for_label }}">Descripción:</label>
+                    <input type="{{ especialidad_form.descripcion.field.widget.input_type }}" id="{{ especialidad_form.descripcion.id_for_label }}" name="{{ especialidad_form.descripcion.html_name }}" class="form-control">
+                </div>
+                <div class="text-right">
+                    <button type="submit" name="especialidad_form" class="btn btn-primary">Agregar Especialidad</button>
+                </div>
+                <br>
+            </form>
+            <form id="formularioMarca" class="hidden-form form-container" method="POST" action="{% url 'crud_admin' %}">
+                <h2>Formulario Marca</h2>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ marca_form.nombre.id_for_label }}">Nombre:</label>
+                    <input type="{{ marca_form.nombre.field.widget.input_type }}" id="{{ marca_form.nombre.id_for_label }}" name="{{ marca_form.nombre.html_name }}" class="form-control">
+                </div>
+                <div class="text-right">
+                    <button type="submit" name="marca_form" class="btn btn-primary">Agregar Marca</button>
+                </div>
+                <br>
+            </form>
+            <form id="formularioModelo" class="hidden-form form-container" method="POST" action="{% url 'crud_admin' %}">
+                <h2>Formulario Modelo</h2>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ modelo_form.mecanico.id_for_label }}">Marca:</label>
+                    {{ modelo_form.marca }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ modelo_form.nombre.id_for_label }}">Nombre:</label>
+                    <input type="{{ modelo_form.nombre.field.widget.input_type }}" id="{{ modelo_form.nombre.id_for_label }}" name="{{ modelo_form.nombre.html_name }}" class="form-control">
+                </div>
+                <div class="text-right">
+                    <button type="submit" name="modelo_form" class="btn btn-primary">Agregar Modelo</button>
+                </div>
+                <br>
+            </form>
+            <form id="formularioTipoVehiculo" class="hidden-form form-container" method="POST" action="{% url 'crud_admin' %}">
+                <h2>Formulario de Tipos de Vehículos</h2>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ tipoVehiculo_form.nombre.id_for_label }}">Nombre:</label>
+                    <input type="{{ tipoVehiculo_form.nombre.field.widget.input_type }}" id="{{ tipoVehiculo_form.nombre.id_for_label }}" name="{{ tipoVehiculo_form.nombre.html_name }}" class="form-control">
+                </div>
+                <div class="text-right">
+                    <button type="submit" name="tipoVehiculo_form" class="btn btn-primary">Agregar Tipo Vehículo</button>
+                </div>
+                <br>
+            </form>
+
+            <h2>Lista de Vehiculos</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Foto</th>
+                        <th>Patente</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Año</th>
+                        <th>Tipo de Vehiculo</th>
+                        <th>Descripción</th>
+                        <th>Servicio</th>
+                        <th class="text-right">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vehiculo in vehiculos %}
+                        <tr>
+                            <td>
+                                {% if vehiculo.imagen %}
+                                <img src="{{ vehiculo.imagen.url }}" alt="Imagen del vehículo" style="width: 100px; height: 100px;">
+                                {% else %}
+                                    Sin imagen
+                                {% endif %}
+                            </td>
+                            <td>{{ vehiculo.patente }}</td>
+                            <td>{{ vehiculo.marca }}</td>
+                            <td>{{ vehiculo.modelo }}</td>
+                            <td>{{ vehiculo.anio }}</td>
+                            <td>{{ vehiculo.tipo }}</td>
+                            <td>{{ vehiculo.descripcion }}</td>
+                            <td>{{ vehiculo.servicio }}</td>
+                            <td class="text-right">
+                                <a href="{% url 'form_mod_vehiculo' vehiculo.id %}" class="btn btn-primary">Administrar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Lista de Mecánicos</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Foto</th>
+                        <th>Primer Nombre</th>
+                        <th>Segundo Nombre</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
+                        <th>Telefono</th>
+                        <th>Email</th>
+                        <th>Especialidad</th>
+                        <th class="text-right">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for mecanico in mecanicos %}
+                        <tr>
+                            <td>
+                                {% if mecanico.imagen %}
+                                <img src="{{ mecanico.imagen.url }}" alt="Imagen del vehículo" style="width: 100px; height: 100px;">
+                                {% else %}
+                                    Sin imagen
+                                {% endif %}
+                            </td>
+                            <td>{{ mecanico.nombre }}</td>
+                            <td>{{ mecanico.snombre }}</td>
+                            <td>{{ mecanico.apellidop }}</td>
+                            <td>{{ mecanico.apellidom }}</td>
+                            <td>{{ mecanico.telefono }}</td>
+                            <td>{{ mecanico.email }}</td>
+                            <td>{{ mecanico.especialidad }}</td>
+                            <td class="text-right">
+                                <a href="{% url 'form_mod_mecanico' mecanico.id %}" class="btn btn-primary">Administrar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Lista de Servicios</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Foto del Servicio</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Mecánico</th>
+                        <th>Precio</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-right">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for servicio in servicios %}
+                        <tr>
+                            <td>
+                                {% if servicio.imagen %}
+                                <img src="{{ servicio.imagen.url }}" alt="Imagen del vehículo" style="width: 100px; height: 100px;">
+                                {% else %}
+                                    Sin imagen
+                                {% endif %}
+                            </td>
+                            <td>{{ servicio.nombre }}</td>
+                            <td>{{ servicio.descripcion }}</td>
+                            <td>{{ servicio.mecanico }}</td>
+                            <td>{{ servicio.precio|floatformat:0  }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-right">
+                                <a href="{% url 'form_mod_servicio' servicio.id %}" class="btn btn-primary">Administrar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Lista de Mensajes</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha - Hora</th>
+                        <th>Nombre</th>
+                        <th>Celular</th>
+                        <th>Correo</th>
+                        <th>Mensaje</th>
+                        <th>Estado</th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-right">Acción</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contacto in contactos %}
+                    <tr>
+                        <td>{{ contacto.fecha|date:_("d F Y H:m:s") }}</td>
+                        <td>{{ contacto.nombre }}</td>
+                        <td>{{ contacto.celular }}</td>
+                        <td>{{ contacto.email }}</td>
+                        <td>{{ contacto.mensaje }}</td>
+                        <td>{{ contacto.estado }}</td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-right">
+                            <a href="{% url 'form_mod_contacto' contacto.id %}" class="btn btn-primary">Administrar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h2>Lista de Especialidades</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-right">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for especialidad in especialidades %}
+                        <tr>
+                            <td>{{ especialidad.nombre }}</td>
+                            <td>{{ especialidad.descripcion }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-right">
+                                <a href="{% url 'form_mod_especialidad' especialidad.id %}" class="btn btn-primary">Administrar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h2>Lista de Marcas</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre de la Marca</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-right">Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for marca in marcas %}
+                        <tr>
+                            <td>{{ marca.nombre }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-right">
+                                <a href="{% url 'form_mod_marca' marca.id %}" class="btn btn-primary">Administrar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h2>Lista de Modelos</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre de la Marca</th>
+                        <th>Nombre del Modelo</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-right">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for modelo in modelos %}
+                        <tr>
+                            <td>{{ modelo.marca }}</td>
+                            <td>{{ modelo.nombre }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-right">
+                                <a href="{% url 'form_mod_modelo' modelo.id %}" class="btn btn-primary">Administrar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h2>Lista de Tipos de Vehículos</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tipo de Vehículo</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-right">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tipoVehiculo in tipoVehiculos %}
+                        <tr>
+                            <td>{{ tipoVehiculo.nombre }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-right">
+                                <a href="{% url 'form_mod_tipovehiculo' tipoVehiculo.id %}" class="btn btn-primary">Administrar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+           
+            <p>&nbsp;</p>
+
+            <!-- Repite el patrón para los demás modelos -->
+
+        </div>
+    </div>
+</section>
+
+
+
+<br><br><br>
+
+<div class="container-footer">
+  <footer>
+      <div class="logo-footer">
+          <img src="" alt="">
+      </div>
+      <div class="info-footer">
+          <a href="PaginaPrincipal.html"> <i class="fa-solid fa-house icon-info-footer"> </i></a>
+          <a href="Mecanicos.html"> <i class="fa-solid fa-circle-user icon-info-footer"> </i></a>
+          <a href="#"> <i class="fa-solid fa-pen icon-info-footer" onclick="mostrarPopUpForm()"> </i></a>
+          <a href="#"> <i class="fa-solid fa-bus icon-info-footer" onclick="mostrarPopUpBus()"> </i></a>
+      </div>
+      <hr>
+      <h4>
+          2022 - Proyecto Web - Branco Molina / Cristobal Cona / Francisco Cofre
+      </h4>
+  </footer>
+</div>
+  <script src="{% static '/core/js/main.js' %}"></script>
+</div>
+</body>
+</html>
